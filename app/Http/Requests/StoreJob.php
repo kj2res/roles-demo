@@ -24,10 +24,10 @@ class StoreJob extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'require',
-            'description' => 'require',
-            'location' => 'require',
-            'company' => 'require'
+            'title' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'company' => 'required'
         ];
     }
 }

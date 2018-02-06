@@ -6,8 +6,10 @@
  */
 
 require('./bootstrap');
+import VueSweetAlert from 'vue-sweetalert'
 
 window.Vue = require('vue');
+let Form = require('vform');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,6 +18,9 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('job-posts', require('./components/JobPosts.vue'));
+Vue.use(Form);
+Vue.use(VueSweetAlert);
 
 const app = new Vue({
     el: '#app'

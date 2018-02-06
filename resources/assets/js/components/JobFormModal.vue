@@ -1,0 +1,89 @@
+<template>
+    <div id="addJobPost" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Post a Job</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form" @submit.prevent="submitForm">
+
+                        <div class="form-group" :class="errors.title ? 'has-danger text-danger mb-1':''">
+                            <label for="title">Title</label>
+                            <input class="form-control" name="user_id" v-model="form.title" id="title" @keydown="errors.title = ''">
+                        </div>
+
+                        <div class="form-group" :class="errors.description ? 'has-danger text-danger mb-1':''">
+                            <label for="description">Description</label>
+                            <input class="form-control" name="description" v-model="form.description" @keydown="errors.description = ''" id="description">
+                        </div>
+
+                        <div class="form-group" :class="errors.location ? 'has-danger text-danger mb-1':''">
+                            <label for="location">Location</label>
+                            <input class="form-control" name="location" v-model="form.location" id="location" @keydown="errors.location = ''">
+                        </div>
+
+                        <div class="form-group" :class="errors.company ? 'has-danger text-danger mb-1':''">
+                            <label for="company">Company</label>
+                            <input class="form-control" name="company" v-model="form.company" id="company" @keydown="errors.company = ''">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-block btn-info">
+                                <i v-if="form.busy" class="fa fa-spinner fa-pulse"></i>
+                                <span v-else="form.busy">Post Job</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info waves-effect"
+                            @click="$emit('close')">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import Form from 'vform';
+
+    export default {
+        props: ['jobs'],
+        data() {
+            return {
+                form: new Form({
+                    title: null,
+                    description: null,
+                    location: null,
+                    company: null
+                }),
+                errors: []
+            }
+        },
+        methods: {
+            submitForm() {
+                this.form.post('/jobs/create').then((res) => {
+                    this.jobs.push(res.data);
+                    this.$emit('close');
+                    this.$swal({
+                        title: "Success!",
+                        text: "Your job post has been submitted. The Admin will now carefully review the information you've provided",
+                        type: "success",
+                        timer: 5200,
+                        showConfirmButton: false
+                    });
+                }, function () {
+                    this.$swal({
+                        title: "Oops!",
+                        text: "Failed.",
+                        type: "error",
+                        timer: 5200,
+                        showConfirmButton: false
+                    });
+                }.bind(this));
+            }
+        }
+    }
+</script>

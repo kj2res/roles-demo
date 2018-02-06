@@ -7,22 +7,35 @@ use App\Job;
 
 class JobsController extends Controller
 {
+    /**
+     * Get all job posts
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
-        return Job::all();
+        $jobs = Job::all();
+        return view('home', ['jobs' => $jobs]);
     }
 
+    /**
+     * Create new job post
+     * @param StoreJob $request
+     * @return mixed
+     */
     public function store(StoreJob $request)
     {
         $this->authorize('create', Job::class);
         return Job::create($request->all());
     }
 
-    public function approve(Job $job)
+    /**
+     * Approves job post
+     * @param Job $job
+     * @return Job
+     */
+    public function update(Job $job)
     {
-        if (!auth()->user()->hasPermissionTo('approve job')) {
-            abort(403, 'Unauthorized action.');
-        }
+        $this->authorize('create', $job);
 
         $job->status = 'approved';
         $job->save();

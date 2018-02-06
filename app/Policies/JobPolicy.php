@@ -18,6 +18,21 @@ class JobPolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('manager') || $user->hasPermissionTo('create job');
+        return true;
+    }
+
+    /**
+     * Determine whether the user can update jobs.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function update(User $user, Job $job)
+    {
+        if ($user->hasRole('admin') || $user->hasPermissionTo('approve job'))
+        {
+            return true;
+        }
+        return false;
     }
 }
