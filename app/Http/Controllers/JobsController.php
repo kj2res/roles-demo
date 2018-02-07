@@ -13,11 +13,19 @@ class JobsController extends Controller
      */
     public function index()
     {
-        $jobs = Job::all();
+        $jobs = Job::query();
+
+        if (auth()->user()->hasPermissionTo('approve job')) {
+            $jobs = $jobs->where('status', 'pending');
+        } else {
+            $jobs = $jobs->where('status', 'approved');
+        }
 
         return view('home', [
-            'jobs' => $jobs,
-            'canCreateJob' => auth()->user()->can('create', Job::class)
+            'jobs' => $jobs->get(),
+            'canCreateJob' => auth()->user()->can('create', Job::class) ? 'true' : 'false',
+            'canApply' => auth()->user()->hasPermissionTo('apply job') ? 'true' : 'false',
+            'canApprove' => auth()->user()->hasPermissionTo('approve job') ? 'true' : 'false',
         ]);
     }
 
@@ -29,7 +37,11 @@ class JobsController extends Controller
     public function store(StoreJob $request)
     {
         $this->authorize('create', Job::class);
-        return Job::create($request->all());
+
+        $attributes = $request->all();
+        $attributes['status'] = 'pending';
+
+        return Job::create($attributes);
     }
 
     /**

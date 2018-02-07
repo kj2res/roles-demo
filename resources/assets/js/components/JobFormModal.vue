@@ -18,7 +18,7 @@
 
                         <div class="form-group" :class="errors.description ? 'has-danger text-danger mb-1':''">
                             <label for="description">Description</label>
-                            <input class="form-control" name="description" v-model="form.description" @keydown="errors.description = ''" id="description">
+                            <textarea class="form-control" name="description" v-model="form.description" @keydown="errors.description = ''" id="description" rows="5"></textarea>
                             <span v-for="error in errors.description" class="help-block">
                                 <small class="text-danger">{{ error }}</small>
                             </span>

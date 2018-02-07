@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
+
 class UserJobController extends Controller
 {
     /**

@@ -19,3 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'JobsController@index')->name('home');
 Route::post('/jobs/create', 'JobsController@store');
+Route::put('/jobs/approve/{job}', 'JobsController@update');
+Route::post('/user/apply/{job}', 'UserJobController@addJob');
+Route::post('/user/remove/{job}', 'UserJobController@removeJob');
