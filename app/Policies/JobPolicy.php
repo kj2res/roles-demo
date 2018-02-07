@@ -18,7 +18,11 @@ class JobPolicy
      */
     public function create(User $user)
     {
-        return true;
+        if ($user->hasRole('manager') || $user->hasPermissionTo('create job'))
+        {
+            return true;
+        }
+        return false;
     }
 
     /**

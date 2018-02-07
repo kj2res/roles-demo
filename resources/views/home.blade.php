@@ -11,7 +11,7 @@
                     </div>
                 @endif
 
-                <job-posts :jobs="{{ $jobs }}"></job-posts>
+                <job-posts :jobs="{{ $jobs }}" canCreateJob="{{ $canCreateJob }}"></job-posts>
             </div>
         </div>
     </div>

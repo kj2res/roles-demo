@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="pull-left">Jobs</h4>
-            <div class="pull-right">
+            <div class="pull-right" v-if="cancreatejob">
                 <button class="btn btn-primary" @click.prevent="showModal"><i class="glyphicon glyphicon-plus"></i> Add Job</button>
             </div>
             <div class="clearfix"></div>
@@ -25,7 +25,7 @@
     import JobFormModal from './JobFormModal.vue';
 
     export default {
-        props: ['jobs'],
+        props: ['jobs', 'cancreatejob'],
         data()
         {
             return {

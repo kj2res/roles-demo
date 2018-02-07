@@ -14,7 +14,11 @@ class JobsController extends Controller
     public function index()
     {
         $jobs = Job::all();
-        return view('home', ['jobs' => $jobs]);
+
+        return view('home', [
+            'jobs' => $jobs,
+            'canCreateJob' => auth()->user()->can('create', Job::class)
+        ]);
     }
 
     /**
@@ -35,7 +39,7 @@ class JobsController extends Controller
      */
     public function update(Job $job)
     {
-        $this->authorize('create', $job);
+        $this->authorize('update', $job);
 
         $job->status = 'approved';
         $job->save();
